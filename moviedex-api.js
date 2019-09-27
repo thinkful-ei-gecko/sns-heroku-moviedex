@@ -23,8 +23,6 @@ app.use ((error, req, res, next) => {
     res.status(500).json(response);
 })
 
-const PORT = process.env.PORT || 8000;
-
 app.use(function validateBearerToken(req, res, next) {
     const apiToken = process.env.API_TOKEN
     const authToken = req.get('Authorization')
@@ -32,6 +30,10 @@ app.use(function validateBearerToken(req, res, next) {
         return res.status(401).json({ error: 'Unathorized request' })
     }
     next()
+})
+
+app.get('/', (req, res) => {
+    res.send('Hello there');
 })
 
 app.get('/movie', (req, res) => {
@@ -67,6 +69,4 @@ app.get('/movie', (req, res) => {
     res.json(results)
 })
 
-app.listen(PORT, () => {
-    console.log(`Server listening at PORT ${PORT}`)
-})
+module.exports = app;
